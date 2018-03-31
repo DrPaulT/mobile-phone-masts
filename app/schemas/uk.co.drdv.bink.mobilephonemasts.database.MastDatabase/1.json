@@ -1,0 +1,108 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "7031b729c807eceee83206098dc38f0f",
+    "entities": [
+      {
+        "tableName": "mast",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `property_name` TEXT, `property_address1` TEXT, `property_address2` TEXT, `property_address3` TEXT, `property_address4` TEXT, `unit_name` TEXT, `tenant_name` TEXT, `lease_start_date` TEXT, `lease_end_date` TEXT, `lease_years` INTEGER, `current_rent` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "propertyName",
+            "columnName": "property_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "propertyAddress1",
+            "columnName": "property_address1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "propertyAddress2",
+            "columnName": "property_address2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "propertyAddress3",
+            "columnName": "property_address3",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "propertyAddress4",
+            "columnName": "property_address4",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "unitName",
+            "columnName": "unit_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tenantName",
+            "columnName": "tenant_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "leaseStartDate",
+            "columnName": "lease_start_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "leaseEndDate",
+            "columnName": "lease_end_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "leaseYears",
+            "columnName": "lease_years",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currentRent",
+            "columnName": "current_rent",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_mast_current_rent",
+            "unique": false,
+            "columnNames": [
+              "current_rent"
+            ],
+            "createSql": "CREATE  INDEX `index_mast_current_rent` ON `${TABLE_NAME}` (`current_rent`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7031b729c807eceee83206098dc38f0f\")"
+    ]
+  }
+}
