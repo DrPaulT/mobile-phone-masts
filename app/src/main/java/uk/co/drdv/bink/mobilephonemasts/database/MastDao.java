@@ -19,7 +19,9 @@ public interface MastDao {
     @Query("SELECT COUNT(*) FROM mast")
     long countRows();
 
-    // TODO    Add ORDER BY and LIMIT 5.
-    @Query("SELECT * FROM mast")
-    LiveData<Mast[]> selectAll();
+    @Query("SELECT * FROM mast ORDER BY CAST(current_rent AS DECIMAL) LIMIT 5")
+    LiveData<Mast[]> selectBottom5();
+
+    @Query("SELECT * FROM mast ORDER BY CAST(current_rent AS DECIMAL) DESC LIMIT 5")
+    LiveData<Mast[]> selectTop5();
 }

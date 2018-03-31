@@ -6,15 +6,18 @@ import android.content.Context;
 
 public class MastViewModel extends ViewModel {
 
-    private LiveData<Mast[]> masts;
+    private MastRepository mastRepository;
 
     public void initialise(Context context, MastRepository mastRepository) {
-        if (masts == null) {
-            masts = mastRepository.loadMasts(context);
-        }
+        this.mastRepository = mastRepository;
+        mastRepository.loadMasts(context);
     }
 
-    public LiveData<Mast[]> getMasts() {
-        return masts;
+    public LiveData<Mast[]> getMastsAscending() {
+        return mastRepository.getBottom5();
+    }
+
+    public LiveData<Mast[]> getMastsDescending() {
+        return mastRepository.getTop5();
     }
 }

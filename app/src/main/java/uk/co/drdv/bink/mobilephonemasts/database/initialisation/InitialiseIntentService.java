@@ -1,4 +1,4 @@
-package uk.co.drdv.bink.mobilephonemasts.initialisation;
+package uk.co.drdv.bink.mobilephonemasts.database.initialisation;
 
 import android.app.IntentService;
 import android.content.Context;
