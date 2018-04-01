@@ -1,23 +1,16 @@
 package uk.co.drdv.bink.mobilephonemasts.ui;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.View;
 
 import uk.co.drdv.bink.mobilephonemasts.R;
-import uk.co.drdv.bink.mobilephonemasts.database.Mast;
-import uk.co.drdv.bink.mobilephonemasts.database.MastRepository;
-import uk.co.drdv.bink.mobilephonemasts.database.MastViewModel;
 
-public class MainActivity extends AppCompatActivity {
-
-    private ViewPager viewPager;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +18,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        viewPager = findViewById(R.id.view_pager);
+        ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new TabAdapter(getSupportFragmentManager()));
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+        findViewById(R.id.add_mast_fab).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        startActivity(new Intent(this, AddMastActivity.class));
     }
 }

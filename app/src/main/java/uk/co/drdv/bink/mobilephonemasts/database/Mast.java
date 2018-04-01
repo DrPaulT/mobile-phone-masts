@@ -5,8 +5,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "mast", indices = {@Index("current_rent")})
-public class Mast {
+public class Mast implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;

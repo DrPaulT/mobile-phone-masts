@@ -4,12 +4,12 @@ import android.arch.lifecycle.LiveData;
 import android.content.Context;
 
 import uk.co.drdv.bink.mobilephonemasts.MpmApplication;
-import uk.co.drdv.bink.mobilephonemasts.database.initialisation.InitialiseIntentService;
+import uk.co.drdv.bink.mobilephonemasts.database.initialisation.DbHelperIntentService;
 
 public class MastRepository {
 
     public void loadMasts(Context context) {
-        InitialiseIntentService.initialiseData(context);
+        DbHelperIntentService.loadCsv(context);
     }
 
     public LiveData<Mast[]> getBottom5() {

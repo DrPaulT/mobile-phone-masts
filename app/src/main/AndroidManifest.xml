@@ -19,9 +19,14 @@
         </activity>
 
         <service
-            android:name=".database.initialisation.InitialiseIntentService"
+            android:name=".database.initialisation.DbHelperIntentService"
             android:exported="false">
         </service>
+
+        <activity
+            android:name=".ui.AddMastActivity"
+            android:parentActivityName=".ui.MainActivity"/>
+
     </application>
 
 </manifest>

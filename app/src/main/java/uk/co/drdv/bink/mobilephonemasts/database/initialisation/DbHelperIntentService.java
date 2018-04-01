@@ -17,8 +17,17 @@ import java.util.Locale;
 import uk.co.drdv.bink.mobilephonemasts.MpmApplication;
 import uk.co.drdv.bink.mobilephonemasts.database.Mast;
 
-public class InitialiseIntentService extends IntentService {
+public class DbHelperIntentService extends IntentService {
 
+    private static final String EXTRA_LOAD_CSV =
+            "uk.co.drdv.bink.mobilephonemasts.database.initialisation."
+                    + "DbHelperIntentService.LOAD_CSV";
+    private static final String EXTRA_ADD_MAST =
+            "uk.co.drdv.bink.mobilephonemasts.database.initialisation."
+                    + "DbHelperIntentService.ADD_MAST";
+    private static final String EXTRA_SERIALIZABLE =
+            "uk.co.drdv.bink.mobilephonemasts.database.initialisation."
+                    + "DbHelperIntentService.SERIALIZABLE";
     private static final String DATA_FILE = "MobilePhoneMasts.csv";
     private static final int PROPERTY_NAME = 0;
     private static final int PROPERTY_ADDRESS1 = 1;
@@ -37,22 +46,46 @@ public class InitialiseIntentService extends IntentService {
     private DateFormat inputFormat = new SimpleDateFormat("d MMM yyyy", Locale.getDefault());
     private DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-    public InitialiseIntentService() {
-        super("InitialiseIntentService");
+    public DbHelperIntentService() {
+        super("DbHelperIntentService");
     }
 
-    public static void initialiseData(Context context) {
-        Intent intent = new Intent(context, InitialiseIntentService.class);
+    public static void loadCsv(Context context) {
+        Intent intent = new Intent(context, DbHelperIntentService.class);
+        intent.putExtra(EXTRA_LOAD_CSV, true);
+        context.startService(intent);
+    }
+
+    public static void addMast(Context context, Mast mast) {
+        Intent intent = new Intent(context, DbHelperIntentService.class);
+        intent.putExtra(EXTRA_ADD_MAST, true);
+        intent.putExtra(EXTRA_SERIALIZABLE, mast);
         context.startService(intent);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        if (intent.getBooleanExtra(EXTRA_LOAD_CSV, false)) {
+            loadCsvFromAssets();
+        } else if (intent.getBooleanExtra(EXTRA_ADD_MAST, false)) {
+            try {
+                Mast mast = (Mast) intent.getSerializableExtra(EXTRA_SERIALIZABLE);
+                mast.setLeaseStartDate(formatDate(mast.getLeaseStartDate()));
+                mast.setLeaseEndDate(formatDate(mast.getLeaseEndDate()));
+                addMastToDatabase((Mast) intent.getSerializableExtra(EXTRA_SERIALIZABLE));
+            } catch (ParseException parseException) {
+                // Discard this row.
+                parseException.printStackTrace();
+            }
+        }
+    }
+
+    private void loadCsvFromAssets() {
         if (MpmApplication.mastDatabase.mastDao().countRows() == 0) {
             try {
                 loadDataFromAssets();
                 parseData();
-                insertData();
+                addMastsToDatabase();
             } catch (Exception exception) {
                 // Ignore any lines that fail.
                 exception.printStackTrace();
@@ -116,9 +149,13 @@ public class InitialiseIntentService extends IntentService {
         return outputFormat.format(date);
     }
 
-    private void insertData() {
+    private void addMastsToDatabase() {
         for (Mast mast : masts) {
-            MpmApplication.mastDatabase.mastDao().insert(mast);
+            addMastToDatabase(mast);
         }
+    }
+
+    private void addMastToDatabase(Mast mast) {
+        MpmApplication.mastDatabase.mastDao().insert(mast);
     }
 }

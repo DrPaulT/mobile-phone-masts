@@ -5,4 +5,16 @@
     <string name="rent">£%1$s</string>
     <string name="reverse_sort">REVERSE SORT</string>
     <string name="date_range">%1$s to %2$s</string>
+    <string name="property_name">Property name</string>
+    <string name="property_address1">1st line of address</string>
+    <string name="property_address2">2nd line of address</string>
+    <string name="property_address3">3rd line of address</string>
+    <string name="property_address4">4th line of address</string>
+    <string name="unit_name">Unit name</string>
+    <string name="tenant_name">Tenant name</string>
+    <string name="lease_start_date">Lease start date (eg. 4 Jan 2020)</string>
+    <string name="lease_end_date">Lease end date (eg. 25 Aug 2025)</string>
+    <string name="lease_years">Lease length in years</string>
+    <string name="current_rent">Rent in pounds</string>
+
 </resources>
