@@ -22,13 +22,17 @@ public interface MastDao {
     LiveData<Mast[]> selectBottom5();
 
     @Query("SELECT * FROM mast "
-            + "ORDER BY CAST(current_rent AS DECIMAL) "
-            + "DESC LIMIT 5")
+            + "ORDER BY CAST(current_rent AS DECIMAL) DESC "
+            + "LIMIT 5")
     LiveData<Mast[]> selectTop5();
 
+    // TODO    Really we should do two queries here, one with the subquery sorted in ascending
+    // TODO    order and one descending, but time does not permit it.
     @Query("SELECT tenant_name AS tenantName, COUNT(*) AS num FROM mast "
-            + "WHERE lease_start_date <= '2018-04-01' "
-            + "AND lease_end_date >= '2018-04-01' "
+            + "WHERE tenant_name IN ("
+            + "SELECT tenant_name FROM mast "
+            + "ORDER BY CAST(current_rent AS DECIMAL) "
+            + "LIMIT 5) "
             + "GROUP BY tenant_name "
             + "ORDER BY 2 DESC")
     LiveData<TenantCount[]> selectTenantCount();
