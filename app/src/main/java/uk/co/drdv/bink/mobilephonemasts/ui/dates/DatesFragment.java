@@ -1,4 +1,4 @@
-package uk.co.drdv.bink.mobilephonemasts.ui.tenants;
+package uk.co.drdv.bink.mobilephonemasts.ui.dates;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -12,37 +12,38 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import uk.co.drdv.bink.mobilephonemasts.R;
+import uk.co.drdv.bink.mobilephonemasts.database.Mast;
 import uk.co.drdv.bink.mobilephonemasts.database.MastRepository;
 import uk.co.drdv.bink.mobilephonemasts.database.MastViewModel;
-import uk.co.drdv.bink.mobilephonemasts.database.TenantCount;
 
-public class TenantsFragment extends Fragment implements Observer<TenantCount[]> {
+public class DatesFragment extends Fragment implements Observer<Mast[]> {
 
-    private TenantsAdapter tenantsAdapter;
+    private MastViewModel mastViewModel;
+    private DatesAdapter datesAdapter;
 
-    public TenantsFragment() {
+    public DatesFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tenantsAdapter = new TenantsAdapter();
-        MastViewModel mastViewModel = ViewModelProviders.of(this).get(MastViewModel.class);
+        datesAdapter = new DatesAdapter();
+        mastViewModel = ViewModelProviders.of(this).get(MastViewModel.class);
         mastViewModel.initialise(getContext(), new MastRepository());
-        mastViewModel.getTenantCount().observe(this, this);
+        mastViewModel.getLeaseDates().observe(this, this);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tenants, container, false);
+        View view = inflater.inflate(R.layout.fragment_dates, container, false);
         ListView listView = view.findViewById(R.id.list_view);
-        listView.setAdapter(tenantsAdapter);
+        listView.setAdapter(datesAdapter);
         return view;
     }
 
     @Override
-    public void onChanged(@Nullable TenantCount[] tenantCounts) {
-        tenantsAdapter.setTenantCounts(tenantCounts);
+    public void onChanged(@Nullable Mast[] masts) {
+        datesAdapter.setMasts(masts);
     }
 }

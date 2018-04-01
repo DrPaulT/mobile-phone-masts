@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import uk.co.drdv.bink.mobilephonemasts.ui.dates.DatesFragment;
 import uk.co.drdv.bink.mobilephonemasts.ui.rents.RentsFragment;
 import uk.co.drdv.bink.mobilephonemasts.ui.tenants.TenantsFragment;
 
@@ -26,7 +27,7 @@ public class TabAdapter extends FragmentPagerAdapter {
             case 1:
                 return new TenantsFragment();
             case 2:
-                return DatesFragment.newInstance("", "");
+                return new DatesFragment();
         }
         return null;
     }

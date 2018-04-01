@@ -23,4 +23,8 @@ public class MastRepository {
     public LiveData<TenantCount[]> getTenantCount() {
         return MpmApplication.mastDatabase.mastDao().selectTenantCount();
     }
+
+    public LiveData<Mast[]> getLeaseDates() {
+        return MpmApplication.mastDatabase.mastDao().selectLeaseDates();
+    }
 }

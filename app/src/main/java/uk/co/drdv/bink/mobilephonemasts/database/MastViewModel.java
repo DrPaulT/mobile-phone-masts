@@ -24,4 +24,8 @@ public class MastViewModel extends ViewModel {
     public LiveData<TenantCount[]> getTenantCount() {
         return mastRepository.getTenantCount();
     }
+
+    public LiveData<Mast[]> getLeaseDates() {
+        return mastRepository.getLeaseDates();
+    }
 }

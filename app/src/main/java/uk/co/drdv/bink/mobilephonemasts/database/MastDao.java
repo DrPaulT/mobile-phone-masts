@@ -11,9 +11,6 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface MastDao {
 
     @Insert(onConflict = REPLACE)
-    long[] insertAll(Mast... masts);
-
-    @Insert(onConflict = REPLACE)
     long insert(Mast mast);
 
     @Query("SELECT COUNT(*) FROM mast")
@@ -35,4 +32,10 @@ public interface MastDao {
             + "GROUP BY tenant_name "
             + "ORDER BY 2 DESC")
     LiveData<TenantCount[]> selectTenantCount();
+
+    @Query("SELECT *  FROM mast "
+            + "WHERE lease_start_date >= '1999-06-01' "
+            + "AND lease_start_date <= '2007-08-31' "
+            + "ORDER BY lease_start_date")
+    LiveData<Mast[]> selectLeaseDates();
 }
