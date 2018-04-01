@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.Locale;
 
 import uk.co.drdv.bink.mobilephonemasts.R;
 import uk.co.drdv.bink.mobilephonemasts.database.Mast;
@@ -22,6 +25,7 @@ public class RentsFragment extends Fragment
     private MastViewModel mastViewModel;
     private RentsAdapter rentsAdapter;
     private boolean sortAscending = true;
+    private TextView total;
 
     public RentsFragment() {
     }
@@ -42,12 +46,21 @@ public class RentsFragment extends Fragment
         ListView listView = view.findViewById(R.id.list_view);
         listView.setAdapter(rentsAdapter);
         view.findViewById(R.id.reverse_sort).setOnClickListener(this);
+        total = view.findViewById(R.id.total);
         return view;
     }
 
     @Override
     public void onChanged(@Nullable Mast[] masts) {
-        rentsAdapter.setMasts(masts);
+        if (masts != null) {
+            rentsAdapter.setMasts(masts);
+            int totalPennies = 0;
+            for (Mast mast : masts) {
+                totalPennies += (Double.parseDouble(mast.getCurrentRent()) * 100);
+            }
+            total.setText(
+                    getString(R.string.rent, String.format(Locale.getDefault(), "%.2f", totalPennies / 100.0)));
+        }
     }
 
     @Override
