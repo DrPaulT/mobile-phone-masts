@@ -20,4 +20,8 @@ public class MastViewModel extends ViewModel {
     public LiveData<Mast[]> getMastsDescending() {
         return mastRepository.getTop5();
     }
+
+    public LiveData<TenantCount[]> getTenantCount() {
+        return mastRepository.getTenantCount();
+    }
 }
